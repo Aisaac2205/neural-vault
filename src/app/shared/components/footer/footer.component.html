@@ -1,0 +1,29 @@
+<!-- src/app/shared/components/footer/footer.component.html -->
+<footer class="mt-auto bg-[#0f0f0f] border-t border-card-border pt-8 px-4 pb-8 font-sans">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between gap-12 mb-12">
+        <div class="max-w-xs">
+            <h4 class="text-xl text-white mb-4 font-semibold font-pixel">AI Portfolio</h4>
+            <p class="text-text-muted text-sm leading-relaxed">
+                Curaduría de herramientas de inteligencia artificial para potenciar tu productividad y desarrollo.
+            </p>
+        </div>
+
+        <div class="min-w-[150px]">
+            <h5 class="text-white text-base mb-4 font-semibold">Conectar</h5>
+            <ul class="flex flex-col gap-3 p-0 list-none">
+                @for (link of socialLinks(); track link.name) {
+                <li>
+                    <a [href]="link.url"
+                        class="text-text-muted text-sm no-underline transition-colors duration-200 hover:text-white">
+                        {{ link.name }}
+                    </a>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-8 border-t border-[#1f1f1f] text-center text-[#525252] text-sm">
+        <p>&copy; {{ currentYear() }} AI Portfolio. Built with Angular 17+ & Tailwind CSS.</p>
+    </div>
+</footer>
