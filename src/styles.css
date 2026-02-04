@@ -1,0 +1,42 @@
+/* src/styles.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Reset or global overrides if needed */
+html,
+body {
+  @apply bg-bg-color text-text-color font-sans antialiased min-h-screen;
+}
+
+h1,
+h2,
+h3 {
+  @apply font-pixel leading-tight font-semibold tracking-wide;
+}
+
+/* App Layout */
+.app-layout {
+  @apply flex flex-col min-h-screen;
+}
+
+.main-content {
+  @apply flex-1;
+}
+
+/* Scrollbar styling (optional but fits the theme) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-bg-color;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-card-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-600;
+}
