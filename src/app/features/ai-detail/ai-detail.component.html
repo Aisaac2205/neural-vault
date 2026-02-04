@@ -1,0 +1,99 @@
+<!-- src/app/features/ai-detail/ai-detail.component.html -->
+<div class="min-h-screen pt-12 md:pt-24 pb-4 px-4 md:px-6 flex flex-col items-center">
+    <div class="w-full max-w-4xl mx-auto">
+
+        <!-- Not Found State -->
+        @if (!tool()) {
+        <div class="text-center py-20 animate-fade-in-up">
+            <h2 class="text-3xl font-pixel text-white mb-4">404 - Tool Not Found</h2>
+            <p class="text-text-muted mb-8">No pudimos encontrar la herramienta que buscas.</p>
+            <button (click)="goBack()"
+                class="px-6 py-3 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform">
+                Volver al Inicio
+            </button>
+        </div>
+        }
+
+        <!-- Detail View -->
+        @if (tool(); as t) {
+        <div class="animate-fade-in-up">
+            <!-- Back Button -->
+            <button (click)="goBack()"
+                class="mb-6 md:mb-8 px-4 md:px-5 py-2 rounded-full border border-card-border bg-transparent text-text-muted hover:text-white hover:border-text-muted hover:bg-white/5 transition-all duration-300 flex items-center gap-2 group">
+                <i class="ph ph-arrow-left text-base md:text-lg group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-medium text-xs md:text-sm">Volver</span>
+            </button>
+
+            <!-- Header -->
+            <header
+                class="flex flex-col gap-6 md:gap-8 items-center md:items-start mb-8 md:mb-12 border-b border-card-border pb-8 md:pb-12">
+                <!-- Icon - Centered on mobile, left on desktop -->
+                <div class="p-4 md:p-6 bg-card-bg border border-card-border rounded-2xl shrink-0 mx-auto md:mx-0">
+                    <i [class]="'ph ' + t.icon + ' text-5xl md:text-6xl text-white'"></i>
+                </div>
+
+                <div class="flex-1 w-full text-center md:text-left">
+                    <!-- Tags - Centered on mobile -->
+                    <div class="flex items-center justify-center md:justify-start gap-2 mb-3 flex-wrap">
+                        @for (tag of t.tags; track tag) {
+                        <span
+                            class="text-xs font-medium px-3 py-1 bg-[#262626] text-[#d4d4d4] rounded-full border border-card-border">
+                            {{ tag }}
+                        </span>
+                        }
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-pixel text-white mb-3 md:mb-4 leading-tight">{{
+                        t.name }}</h1>
+                    <p class="text-base md:text-xl text-text-muted mb-6 leading-relaxed">{{ t.specialty }}</p>
+
+                    <!-- Buttons - Stack on mobile -->
+                    <div class="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center">
+                        <a [href]="t.url" target="_blank" rel="noopener noreferrer"
+                            class="px-6 md:px-8 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2 text-sm md:text-base">
+                            Visitar Sitio
+                            <i class="ph ph-arrow-up-right"></i>
+                        </a>
+                        <div
+                            class="px-5 md:px-6 py-3 border border-card-border rounded-full text-text-muted flex items-center justify-center gap-2 text-sm md:text-base">
+                            <i class="ph ph-currency-dollar"></i>
+                            {{ t.pricing || 'No pricing info' }}
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Description Content -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 md:mb-16">
+                <div class="md:col-span-2 space-y-6">
+                    <h2 class="text-2xl text-white font-pixel mb-6">Sobre la Herramienta</h2>
+                    <div class="prose prose-invert max-w-none text-text-muted leading-relaxed text-lg">
+                        <p>{{ t.description || 'No description available for this tool.' }}</p>
+                        <!-- Future: More detailed content, features list, etc. -->
+                    </div>
+                </div>
+
+                <!-- Sidebar / Meta -->
+                <div class="space-y-8">
+                    <div class="p-6 bg-card-bg/50 border border-card-border rounded-2xl">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="ph ph-info"></i> Detalles
+                        </h3>
+                        <ul class="space-y-4 text-sm text-text-muted">
+                            <li class="flex justify-between">
+                                <span>Categoría</span>
+                                <span class="text-white">{{ t.category }}</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>ID Sistema</span>
+                                <span class="font-mono text-xs bg-black p-1 rounded">{{ t.id }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        }
+    </div>
+</div>
