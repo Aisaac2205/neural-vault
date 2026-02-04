@@ -1,0 +1,89 @@
+<!-- src/app/features/home/home.component.html -->
+<section class="min-h-screen pt-20 px-4 md:px-6 pb-4 flex flex-col justify-start">
+    <div class="w-full max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <header class="mb-16 text-center max-w-2xl mx-auto animate-fade-in-up">
+            <div class="flex justify-center mb-8 perspective-[1000px]">
+                <img src="assets/images/robot-logo.png" alt="AI Portfolio Robot"
+                    class="w-[120px] h-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-float">
+            </div>
+            <h1
+                class="text-5xl md:text-6xl mb-2 bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent font-pixel tracking-tighter">
+                AI Portfolio
+            </h1>
+            <p class="text-text-muted text-lg md:text-xl mb-8">
+                Explorando la inteligencia artificial moderna.
+            </p>
+
+            <div class="relative mt-6">
+                <input #searchInput type="text" placeholder="Buscar IA (ej. Claude, Agente, IDE)..."
+                    class="w-full py-4 px-6 text-base bg-[#1a1a1a] border border-card-border rounded-full text-text-color transition-all duration-200 focus:outline-none focus:border-accent-color focus:bg-[#202020] focus:ring-4 focus:ring-white/5 font-sans"
+                    (input)="onSearch(searchInput.value)">
+            </div>
+        </header>
+
+        <!-- Info Section -->
+        <section
+            class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8 mb-16 items-center opacity-0 animate-fade-in-up [animation-delay:200ms] text-center md:text-left">
+            <div class="p-8 bg-white/5 border border-card-border rounded-2xl">
+                <h3 class="text-white mb-4 text-2xl font-pixel">¿Por qué esta lista?</h3>
+                <p class="text-text-muted text-base">
+                    Hemos seleccionado las herramientas de IA más impactantes del mercado actual, priorizando aquellas
+                    que ofrecen utilidad real, innovación en su campo y una experiencia de desarrollador superior.
+                </p>
+            </div>
+            <div class="flex justify-around gap-4 pt-4 md:pt-0 border-t border-white/10 md:border-t-0">
+                <div class="flex flex-col items-center">
+                    <span class="text-5xl font-bold text-white leading-none">{{ toolCount().length }}</span>
+                    <span class="text-text-muted text-sm uppercase tracking-widest mt-2">Herramientas</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-5xl font-bold text-white leading-none">100%</span>
+                    <span class="text-text-muted text-sm uppercase tracking-widest mt-2">Curadas</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: GENERAL TOOLS -->
+        @if (generalTools().length > 0) {
+        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6 mb-8 mt-4 animate-fade-in-up">
+            <h2 class="text-2xl md:text-3xl text-white whitespace-nowrap flex items-center gap-3 font-pixel">
+                <i class="ph ph-sparkle text-text-muted text-2xl"></i> Asistentes & Herramientas
+            </h2>
+            <div class="h-px bg-gradient-to-r from-card-border to-transparent w-full md:w-1/2"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (tool of generalTools(); track tool.id) {
+            <app-ai-card [tool]="tool" class="opacity-0 animate-fade-in-up translate-y-5"
+                [style.animation-delay]="$index * 50 + 100 + 'ms'" />
+            }
+        </div>
+        }
+
+        <!-- SECTION 2: IDEs -->
+        @if (ideTools().length > 0) {
+        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6 mb-8 mt-20 animate-fade-in-up">
+            <h2 class="text-2xl md:text-3xl text-white whitespace-nowrap flex items-center gap-3 font-pixel">
+                <i class="ph ph-code-block text-text-muted text-2xl"></i> Entornos de Desarrollo
+            </h2>
+            <div class="h-px bg-gradient-to-r from-card-border to-transparent w-full md:w-1/2"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16">
+            @for (tool of ideTools(); track tool.id) {
+            <app-ai-card [tool]="tool" class="opacity-0 animate-fade-in-up translate-y-5"
+                [style.animation-delay]="$index * 50 + 100 + 'ms'" />
+            }
+        </div>
+        }
+
+        @if (generalTools().length === 0 && ideTools().length === 0) {
+        <div class="text-center py-16 text-text-muted text-xl">
+            <p>No se encontraron herramientas con ese criterio.</p>
+        </div>
+        }
+
+    </div>
+</section>
