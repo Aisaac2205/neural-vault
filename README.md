@@ -4,6 +4,8 @@ A modern, high-performance Single Page Application (SPA) designed to curate and 
 
 ## Project Overview
 
+[![Neural Vault Preview](src/assets/preview.png)](https://neural-vault-five.vercel.app/)
+
 This application serves as a curated catalog of AI tools, featuring a landing page with segmented categories (General Assistants & IDEs) and detailed views for each tool. It leverages the latest Angular features to provide a seamless user experience with minimal bundle size and maximum performance.
 
 ## Architecture & Design Principles
