@@ -1,0 +1,31 @@
+<div class="mb-20">
+    <!-- Header (Contained in parent width) -->
+    <div class="flex items-center gap-3 mb-6 px-4 md:px-0 max-w-7xl mx-auto">
+        <i [class]="icon() + ' text-3xl text-purple-400'"></i>
+        <h2 class="text-2xl md:text-3xl text-white font-pixel">{{ title() }}</h2>
+    </div>
+
+    <!-- Carousel Container (Full Screen Width) -->
+    <div class="relative w-screen left-[50%] -translate-x-[50%]">
+
+        <!-- Mask for fade effect on edges -->
+        <div
+            class="absolute inset-0 z-10 pointer-events-none [mask-image:linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)] bg-gradient-to-r from-[#0a0a0a] via-transparent to-[#0a0a0a]">
+        </div>
+
+        <!-- Swiper Container -->
+        <!-- speed: time for transition (controls speed of linear movement) -->
+        <swiper-container #swiperRef init="false" class="mySwiper py-4 pl-4" slides-per-view="auto" space-between="32"
+            loop="true" free-mode="true" speed="5000" autoplay-delay="0" autoplay-disable-on-interaction="false">
+
+            @for (tool of tools(); track tool.id) {
+            <swiper-slide class="w-auto h-auto">
+                <div
+                    class="w-[300px] md:w-[380px] h-full transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1">
+                    <app-ai-card [tool]="tool" class="h-full block" />
+                </div>
+            </swiper-slide>
+            }
+        </swiper-container>
+    </div>
+</div>
