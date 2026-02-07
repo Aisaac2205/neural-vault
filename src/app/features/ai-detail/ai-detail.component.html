@@ -2,8 +2,38 @@
 <div class="min-h-screen pt-12 md:pt-24 pb-4 px-4 md:px-6 flex flex-col items-center">
     <div class="w-full max-w-4xl mx-auto">
 
-        <!-- Not Found State -->
-        @if (!tool()) {
+        <!-- Loading State -->
+        @if (isLoading()) {
+        <div class="flex flex-col items-center justify-center py-20 animate-fade-in-up">
+            <div class="w-12 h-12 border-4 border-card-border border-t-white rounded-full animate-spin mb-4"></div>
+            <p class="text-text-muted text-lg">Cargando herramienta...</p>
+        </div>
+        }
+
+        <!-- Error State -->
+        @if (error() && !isLoading()) {
+        <div class="text-center py-20 animate-fade-in-up">
+            <div class="mb-4">
+                <i class="ph ph-warning-circle text-6xl text-red-500"></i>
+            </div>
+            <h2 class="text-3xl font-pixel text-white mb-4">Error de conexión</h2>
+            <p class="text-text-muted mb-8">{{ error() }}</p>
+            <div class="flex gap-4 justify-center">
+                <button (click)="retryLoad()"
+                    class="px-6 py-3 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform flex items-center gap-2">
+                    <i class="ph ph-arrow-clockwise"></i>
+                    Reintentar
+                </button>
+                <button (click)="goBack()"
+                    class="px-6 py-3 border border-card-border text-white font-semibold rounded-full hover:bg-white/5 transition-transform">
+                    Volver al Inicio
+                </button>
+            </div>
+        </div>
+        }
+
+        <!-- Not Found State (only show if not loading and no error) -->
+        @if (!tool() && !isLoading() && !error()) {
         <div class="text-center py-20 animate-fade-in-up">
             <h2 class="text-3xl font-pixel text-white mb-4">404 - Tool Not Found</h2>
             <p class="text-text-muted mb-8">No pudimos encontrar la herramienta que buscas.</p>
