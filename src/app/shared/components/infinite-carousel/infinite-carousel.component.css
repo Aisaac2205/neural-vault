@@ -1,0 +1,12 @@
+/* src/app/shared/components/infinite-carousel/infinite-carousel.component.css */
+
+/* Force linear timing for continuous marquee effect */
+:host ::ng-deep swiper-container::part(wrapper) {
+    transition-timing-function: linear !important;
+}
+
+swiper-slide {
+    width: auto;
+    /* Required for slides-per-view="auto" */
+    height: auto;
+}

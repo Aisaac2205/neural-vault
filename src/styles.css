@@ -7,12 +7,69 @@
 html,
 body {
   @apply bg-bg-color text-text-color font-sans antialiased min-h-screen;
+  font-size: clamp(14px, 0.9rem + 0.25vw, 18px);
 }
 
+/* Improved Typography Hierarchy */
 h1,
 h2,
 h3 {
   @apply font-pixel leading-tight font-semibold tracking-wide;
+}
+
+h1 {
+  @apply text-fluid-5xl;
+}
+
+h2 {
+  @apply text-fluid-3xl;
+}
+
+h3 {
+  @apply text-fluid-2xl;
+}
+
+h4 {
+  @apply text-fluid-xl font-semibold;
+}
+
+h5 {
+  @apply text-fluid-lg font-semibold;
+}
+
+h6 {
+  @apply text-fluid-base font-semibold uppercase tracking-wider;
+}
+
+p {
+  @apply text-fluid-base leading-relaxed;
+}
+
+/* Responsive text utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .responsive-container {
+    @apply w-full px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+
+  .max-ch-65 {
+    max-width: 65ch;
+  }
+
+  .max-ch-75 {
+    max-width: 75ch;
+  }
+
+  .max-ch-85 {
+    max-width: 85ch;
+  }
 }
 
 /* App Layout */
@@ -39,4 +96,30 @@ h3 {
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-neutral-600;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  html {
+    font-size: 16px;
+  }
+
+  h1 {
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Reduced motion preference - only for infinite animations */
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-float {
+    animation: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-text-muted {
+    color: #d4d4d4;
+  }
 }
