@@ -1,5 +1,5 @@
 // src/app/features/ai-detail/ai-detail.component.ts
-import { Component, Input, OnInit, inject, signal } from '@angular/core';
+import { Component, Input, OnInit, inject, signal, effect } from '@angular/core';
 import { CommonModule, Location } from '@angular/common'; // Import Location for back navigation
 import { RouterLink } from '@angular/router';
 import { AiDataService } from '../../core/services/ai-data.service';
@@ -20,9 +20,22 @@ export class AiDetailComponent implements OnInit {
     @Input() id?: string;
 
     tool = signal<AiTool | undefined>(undefined);
+    isLoading = this.aiService.isLoading;
+    error = this.aiService.error;
+
+    constructor() {
+        // React to loading state changes to update tool when data is loaded
+        effect(() => {
+            if (!this.isLoading() && this.id) {
+                const foundTool = this.aiService.getAiById(this.id);
+                this.tool.set(foundTool);
+            }
+        }, { allowSignalWrites: true });
+    }
 
     ngOnInit(): void {
-        if (this.id) {
+        // Initial check in case data is already loaded
+        if (this.id && !this.isLoading()) {
             const foundTool = this.aiService.getAiById(this.id);
             this.tool.set(foundTool);
         }
@@ -30,5 +43,9 @@ export class AiDetailComponent implements OnInit {
 
     goBack(): void {
         this.location.back(); // Navigate back programmatically
+    }
+
+    retryLoad(): void {
+        this.aiService.refreshTools();
     }
 }
