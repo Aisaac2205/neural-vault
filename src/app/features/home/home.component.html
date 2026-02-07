@@ -3,85 +3,138 @@
     <div class="w-full max-w-7xl mx-auto">
 
         <!-- Header -->
-        <header class="mb-16 text-center max-w-2xl mx-auto animate-fade-in-up">
-            <div class="flex justify-center mb-8 perspective-[1000px]">
+        <header class="mb-8 md:mb-16 text-center max-w-2xl mx-auto animate-fade-in-up">
+            <div class="flex justify-center mb-6 md:mb-8 perspective-[1000px]">
                 <img src="assets/images/robot-logo.png" alt="AI Portfolio Robot"
-                    class="w-[120px] h-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-float">
+                    class="w-[80px] md:w-[120px] h-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-float">
             </div>
             <h1
-                class="text-5xl md:text-6xl mb-2 bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent font-pixel tracking-tighter">
+                class="text-4xl md:text-6xl mb-2 bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent font-pixel tracking-tighter">
                 AI Portfolio
             </h1>
-            <p class="text-text-muted text-lg md:text-xl mb-8">
+            <p class="text-text-muted text-base md:text-xl mb-6 md:mb-8">
                 Explorando la inteligencia artificial moderna.
             </p>
 
-            <div class="relative mt-6">
+            <div class="relative mt-4 md:mt-6 flex flex-col sm:flex-row gap-3">
                 <input #searchInput type="text" placeholder="Buscar IA (ej. Claude, Agente, IDE)..."
-                    class="w-full py-4 px-6 text-base bg-[#1a1a1a] border border-card-border rounded-full text-text-color transition-all duration-200 focus:outline-none focus:border-accent-color focus:bg-[#202020] focus:ring-4 focus:ring-white/5 font-sans"
-                    (input)="onSearch(searchInput.value)">
+                    class="w-full py-3 md:py-4 px-6 text-sm md:text-base bg-[#1a1a1a] border border-card-border rounded-full text-text-color transition-all duration-200 focus:outline-none focus:border-accent-color focus:bg-[#202020] focus:ring-4 focus:ring-white/5 font-sans"
+                    (input)="onSearch(searchInput.value)" (keyup.enter)="searchWithAI(searchInput.value)">
+
+                <button (click)="searchWithAI(searchInput.value)" [disabled]="!searchInput.value || isSearchingAI()"
+                    class="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-blue-600 
+                               text-white rounded-full font-semibold hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,237,0.5)]
+                               transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none
+                               flex items-center justify-center gap-2 whitespace-nowrap min-w-[160px] md:min-w-[180px] text-sm md:text-base">
+                    @if (isSearchingAI()) {
+                    <div
+                        class="w-4 h-4 md:w-5 md:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin">
+                    </div>
+                    <span>Pensando...</span>
+                    } @else {
+                    <i class="ph ph-sparkle text-lg md:text-xl"></i>
+                    <span>Buscar con IA</span>
+                    }
+                </button>
             </div>
         </header>
 
-        <!-- Info Section -->
-        <section
-            class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8 mb-16 items-center opacity-0 animate-fade-in-up [animation-delay:200ms] text-center md:text-left">
-            <div class="p-8 bg-white/5 border border-card-border rounded-2xl">
-                <h3 class="text-white mb-4 text-2xl font-pixel">¿Por qué esta lista?</h3>
-                <p class="text-text-muted text-base">
-                    Hemos seleccionado las herramientas de IA más impactantes del mercado actual, priorizando aquellas
-                    que ofrecen utilidad real, innovación en su campo y una experiencia de desarrollador superior.
-                </p>
-            </div>
-            <div class="flex justify-around gap-4 pt-4 md:pt-0 border-t border-white/10 md:border-t-0">
-                <div class="flex flex-col items-center">
-                    <span class="text-5xl font-bold text-white leading-none">{{ toolCount().length }}</span>
-                    <span class="text-text-muted text-sm uppercase tracking-widest mt-2">Herramientas</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span class="text-5xl font-bold text-white leading-none">100%</span>
-                    <span class="text-text-muted text-sm uppercase tracking-widest mt-2">Probadas</span>
+        <!-- Main Content -->
+        @if (!isLoading() && !error()) {
+
+        <!-- Educational Hero Section (Ultra-Compact Mobile) -->
+        <section class="mb-8 md:mb-16 opacity-0 animate-fade-in-up [animation-delay:100ms]">
+            <div
+                class="border border-white/10 rounded-xl bg-card-bg/50 p-4 md:p-8 md:border-y md:border-x-0 md:bg-transparent md:rounded-none">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-12">
+
+                    <!-- Title & Intro (Compact) -->
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg md:text-2xl text-white mb-1 md:mb-3 font-pixel leading-tight">
+                            Domina el stack de IA
+                        </h2>
+                        <p class="text-text-muted text-xs md:text-sm leading-relaxed text-balance">
+                            Elegir las herramientas correctas define tu velocidad.
+                        </p>
+                    </div>
+
+                    <!-- Pillars (Dense Grid) -->
+                    <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-6 w-full">
+                        <!-- Pilar 1 -->
+                        <div
+                            class="flex items-center md:items-start gap-3 bg-white/5 md:bg-transparent p-2 md:p-0 rounded-lg">
+                            <i class="ph ph-target text-lg md:text-xl text-purple-400"></i>
+                            <div>
+                                <h3 class="text-white font-medium text-xs md:text-sm">Especialización</h3>
+                                <p class="text-text-muted text-[10px] md:text-xs leading-snug hidden md:block">Cada IA
+                                    tiene un superpoder único.</p>
+                            </div>
+                        </div>
+
+                        <!-- Pilar 2 -->
+                        <div
+                            class="flex items-center md:items-start gap-3 bg-white/5 md:bg-transparent p-2 md:p-0 rounded-lg">
+                            <i class="ph ph-lightning text-lg md:text-xl text-blue-400"></i>
+                            <div>
+                                <h3 class="text-white font-medium text-xs md:text-sm">Sinergia</h3>
+                                <p class="text-text-muted text-[10px] md:text-xs leading-snug hidden md:block">El valor
+                                    real está en combinarlas.</p>
+                            </div>
+                        </div>
+
+                        <!-- Pilar 3 -->
+                        <div
+                            class="flex items-center md:items-start gap-3 bg-white/5 md:bg-transparent p-2 md:p-0 rounded-lg">
+                            <i class="ph ph-brain text-lg md:text-xl text-green-400"></i>
+                            <div>
+                                <h3 class="text-white font-medium text-xs md:text-sm">Estrategia</h3>
+                                <p class="text-text-muted text-[10px] md:text-xs leading-snug hidden md:block">Conocer
+                                    el mapa te da ventaja.</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 1: GENERAL TOOLS -->
-        @if (generalTools().length > 0) {
-        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6 mb-8 mt-4 animate-fade-in-up">
-            <h2 class="text-2xl md:text-3xl text-white whitespace-nowrap flex items-center gap-3 font-pixel">
-                <i class="ph ph-sparkle text-text-muted text-2xl"></i> Asistentes & Herramientas
-            </h2>
-            <div class="h-px bg-gradient-to-r from-card-border to-transparent w-full md:w-1/2"></div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @for (tool of generalTools(); track tool.id) {
-            <app-ai-card [tool]="tool" class="opacity-0 animate-fade-in-up translate-y-5"
-                [style.animation-delay]="$index * 50 + 100 + 'ms'" />
-            }
+        <!-- Agents Carousel -->
+        @if (topAgents().length > 0) {
+        <div class="opacity-0 animate-fade-in-up [animation-delay:200ms]">
+            <app-infinite-carousel [tools]="topAgents()" title="Agentes Autónomos Top" icon="ph ph-robot" />
         </div>
         }
 
-        <!-- SECTION 2: IDEs -->
-        @if (ideTools().length > 0) {
-        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6 mb-8 mt-20 animate-fade-in-up">
-            <h2 class="text-2xl md:text-3xl text-white whitespace-nowrap flex items-center gap-3 font-pixel">
-                <i class="ph ph-code-block text-text-muted text-2xl"></i> Entornos de Desarrollo
-            </h2>
-            <div class="h-px bg-gradient-to-r from-card-border to-transparent w-full md:w-1/2"></div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16">
-            @for (tool of ideTools(); track tool.id) {
-            <app-ai-card [tool]="tool" class="opacity-0 animate-fade-in-up translate-y-5"
-                [style.animation-delay]="$index * 50 + 100 + 'ms'" />
-            }
+        <!-- IDEs Carousel -->
+        @if (topIDEs().length > 0) {
+        <div class="opacity-0 animate-fade-in-up [animation-delay:300ms]">
+            <app-infinite-carousel [tools]="topIDEs()" title="IDEs Potenciados" icon="ph ph-code-block" />
         </div>
         }
 
-        @if (generalTools().length === 0 && ideTools().length === 0) {
-        <div class="text-center py-16 text-text-muted text-xl">
-            <p>No se encontraron herramientas con ese criterio.</p>
+        }
+
+        <!-- Loading State -->
+        @if (isLoading()) {
+        <div class="flex flex-col items-center justify-center py-20 animate-fade-in-up">
+            <div class="w-12 h-12 border-4 border-card-border border-t-white rounded-full animate-spin mb-4"></div>
+            <p class="text-text-muted text-lg">Cargando herramientas...</p>
+        </div>
+        }
+
+        <!-- Error State -->
+        @if (error()) {
+        <div class="text-center py-16 animate-fade-in-up">
+            <div class="mb-4">
+                <i class="ph ph-warning-circle text-6xl text-red-500"></i>
+            </div>
+            <h3 class="text-2xl text-white mb-2 font-pixel">Error de conexión</h3>
+            <p class="text-text-muted mb-6">{{ error() }}</p>
+            <button (click)="retryLoad()"
+                class="px-6 py-3 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform flex items-center gap-2 mx-auto">
+                <i class="ph ph-arrow-clockwise"></i>
+                Reintentar
+            </button>
         </div>
         }
 
